@@ -31,10 +31,10 @@ const { Sequelize } = require('sequelize');
 // Create a connection to database
 const db = new Sequelize({
   dialect: 'postgres',
-  host: 'localhost',
-  username: 'postgres',
-  password: '1234',
-  database: 'postgres'
+  host: 'dpg-cchfi0la4995s2ok7brg-a.oregon-postgres.render.com',
+  username: 'airbnb_fv7u_user',
+  password: '3ZuSMz9mFOI0Dv2Pd3UU9QUI7MRRomqD',
+  database: 'airbnb_fv7u'
 });
 
 module.exports = { db };
