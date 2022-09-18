@@ -3,16 +3,27 @@ const { hashPassword } = require("../utils/crypt");
 
 const accommodationImages = require("../models/acomodations.images.models");
 const Roles = require("../models/roles.model");
+const accommodation = require("../models/acomodations.model")
 
 const getAll = async () => {
   const res = await accommodationImages.findAll({
+    include: [
+      {
+        model: accommodation
+      }
+    ],
   })
   return res
 };
 
 const getById = async (id) => {
   const res = await accommodationImages.findOne({
-    where: { id }
+    where: { id },
+    include: [
+      {
+        model: accommodation
+      }
+    ],
   });
   return res;
 };

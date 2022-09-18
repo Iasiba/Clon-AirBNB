@@ -4,7 +4,7 @@ const getAll = (req, res) => {
   accommodationImageControllers
     .getAll()
     .then((response) => {
-      res.status(200).json({ items: response.length, users: response });
+      res.status(200).json({ items: response.length, accommodationImages: response });
     })
     .catch((err) => {
       res.status(400).json(err);

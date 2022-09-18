@@ -2,9 +2,15 @@ const uuid = require("uuid");
 const { hashPassword } = require("../utils/crypt");
 
 const Roles = require("../models/roles.model");
+const Users = require("../models/user.model")
 
 const getAll = async () => {
   const res = await Roles.findAll({
+    include: [
+      {
+        model: Users
+      }
+    ],
   })
   return res
 };

@@ -6,13 +6,13 @@ require('../middleware/auth.middleware')(passport)
 const rolesServices = require('./roles.http')
 
 
-router.route('/') //* /api/v1/users/
-    .get(rolesServices.getAll)
-    .post(rolesServices.create)
+router.route('/') // /api/v1/roles/
+    .get(passport.authenticate('jwt', {session: false}), roleAdminMiddleware,rolesServices.getAll)
+    .post(passport.authenticate('jwt', {session: false}), roleAdminMiddleware,rolesServices.create)
 router.route('/:id')
-    .get(rolesServices.getById)
-    .delete(/*passport.authenticate('jwt', {session: false}), roleAdminMiddleware, */rolesServices.remove)
-    .put(/*passport.authenticate('jwt', {session: false}), roleAdminMiddleware ,*/rolesServices.edit)
+    .get(passport.authenticate('jwt', {session: false}), roleAdminMiddleware,rolesServices.getById)
+    .delete(passport.authenticate('jwt', {session: false}), roleAdminMiddleware,rolesServices.remove)
+    .put(passport.authenticate('jwt', {session: false}), roleAdminMiddleware ,rolesServices.edit)
 
 
 exports.router = router

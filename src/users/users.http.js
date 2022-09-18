@@ -170,14 +170,13 @@ const edit = (req, res) => {
 };
 */
 const editMyUser = (req, res) => {
-  const id = req.user.id;
   const data = req.body;
   console.log(req.user)
   console.log(data)
   if (!Object.keys(data).length) {
     return res.status(400).json({ message: "Missing Data" });
   } else {
-    userControllers.editUser(id, data, req.user.rol)
+    userControllers.editUser(req.user.id, data, req.user.rol)
       .then((response) => {
         res.status(200).json({
           message: 'User edited succesfully',
@@ -246,6 +245,7 @@ const getMyUser = (req, res) => {
 */
 const removeMyUser = (req, res) => {
   const id = req.user.id;
+  console.log("eliminar a user")
   userControllers.deleteUser(id)
     .then(response => {
       res.status(204).json({message:"deleted succesfully"});

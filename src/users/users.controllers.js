@@ -38,6 +38,17 @@ const userDB = [{
 
 const getAllUsers = async() => {
   const res= await Users.findAll({
+    include: [
+      {
+        model: acomodations,
+        attributes: {
+          exclude: ["createdAt", "updatedAt"],
+        },
+      },
+      {
+        model: Roles
+      }
+    ],
     attributes:{
       exclude:["password","createdAt","UpdatedAt","roleId"]
     }
@@ -49,12 +60,17 @@ const getAllUsers = async() => {
 const getUserById = async (id) => {
   const res = await Users.findOne({
     where: { id },
-    include: {
-      model: acomodations,
-      attributes: {
-        exclude: ["createdAt", "updatedAt"],
+    include: [
+      {
+        model: acomodations,
+        attributes: {
+          exclude: ["createdAt", "updatedAt"],
+        },
       },
-    },
+      {
+        model: Roles
+      }
+    ],
     attributes: {
       exclude: ["password", "createdAt", "updatedAt", "roleId"],
     },
@@ -158,6 +174,7 @@ const editUser = (id, data, userRol) => {
   }
 };*/
 const deleteUser = async (id) => {
+  console.log("eliminar a ", id)
   const UserDeleted = await Users.destroy({
     where: {
       id: id,

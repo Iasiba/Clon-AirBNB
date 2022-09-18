@@ -75,7 +75,7 @@ const remove = (req, res) => {
   placeControllers.deletePlace(id)
     .then((response) => {
       if (response) {
-        res.status(204).json()
+        res.status(204).json({message: "deleted succesfully"})
       } else {
         res.status(400).json({
           message: 'Invalid ID'

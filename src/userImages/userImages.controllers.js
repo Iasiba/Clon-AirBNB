@@ -2,17 +2,27 @@ const uuid = require("uuid");
 const { hashPassword } = require("../utils/crypt");
 
 const userImages = require("../models/users.images");
-const Roles = require("../models/roles.model");
+const users= require("../models/user.model")
 
 const getAll = async () => {
   const res = await userImages.findAll({
+    include: [
+      {
+        model: users
+      }
+    ]
   })
   return res
 };
 
 const getById = async (id) => {
   const res = await userImages.findOne({
-    where: { id }
+    where: { id },
+    include: [
+      {
+        model: users
+      }
+    ]
   });
   return res;
 };

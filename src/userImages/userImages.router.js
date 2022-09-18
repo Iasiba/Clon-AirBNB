@@ -7,12 +7,12 @@ const userImageServices = require('./userImages.http')
 
 
 router.route('/') //* /api/v1/users/
-    .get(userImageServices.getAll)
+    .get(passport.authenticate('jwt', {session: false}),roleAdminMiddleware,userImageServices.getAll)
     .post(userImageServices.create)
 router.route('/:id')
-    .get(userImageServices.getById)
-    .delete(/*passport.authenticate('jwt', {session: false}), roleAdminMiddleware, */userImageServices.remove)
-    .put(/*passport.authenticate('jwt', {session: false}), roleAdminMiddleware ,*/userImageServices.edit)
+    .get(passport.authenticate('jwt', {session: false}), userImageServices.getById)
+    .delete(passport.authenticate('jwt', {session: false}), userImageServices.remove)
+    .put(passport.authenticate('jwt', {session: false}), userImageServices.edit)
 
 
 exports.router = router

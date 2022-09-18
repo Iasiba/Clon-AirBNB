@@ -1,10 +1,9 @@
 const reservationControllers = require("./reservations.controllers");
 
 const getAll = (req, res) => {
-  reservationControllers
-    .getAll()
+  reservationControllers.getAll()
     .then((response) => {
-      res.status(200).json({ items: response.length, users: response });
+      res.status(200).json({ items: response.length, reservations: response });
     })
     .catch((err) => {
       res.status(400).json(err);
@@ -13,8 +12,7 @@ const getAll = (req, res) => {
 
 const getById = (req, res) => {
   const id = req.params.id;
-  reservationControllers
-    .getById(id)
+  reservationControllers.getById(id,req.user.id,req.user.rol)
     .then((response) => {
       res.status(200).json(response);
     })
@@ -24,24 +22,18 @@ const getById = (req, res) => {
 }
 
 const create = (req, res) => {
-  console.log("entro a cgr")
-  
   const data = req.body;
-  console.log(data)
   const userId = req.user.id;
-  console.log(userId)
-  
-    
   if (!data) {
-    return res.status(400).json({ message: "Missing Data"});
+    return res.status(400).json({ message: "Missing Data" });
   } else if (
     !data.arrival ||
-    !data.departure||
-    !data.acomodationId||
-    !data.adults||
-    !data.kids||
-    !data.babies||
-    !data.pets    
+    !data.departure ||
+    !data.acomodationId ||
+    !data.adults ||
+    !data.kids ||
+    !data.babies ||
+    !data.pets
   ) {
     return res.status(400).json({
       message: "All fields must be completed",
@@ -59,16 +51,6 @@ const create = (req, res) => {
       },
     });
   } else {
-    console.log(userId)
-    console.log(userId)
-    console.log(userId)
-    console.log(userId)
-    console.log("tu mama me mima")
-    console.log(userId)
-    console.log(userId)
-    console.log(userId)
-    console.log(userId)
-    console.log(userId)
     reservationControllers.create(userId, data)
       .then((response) => {
         res.status(201).json({
@@ -77,19 +59,19 @@ const create = (req, res) => {
         });
       })
       .catch(err => {
-        res.status(400).json({message: err.errors[0].message})
-      }) 
+        res.status(400).json({ message: err.errors[0].message })
+      })
   }
-  
+
 };
 
 const remove = (req, res) => {
   const id = req.params.id;
-  reservationControllers.deleteReservation(id)
+  reservationControllers.deleteReservation(id, req.user.id, req.user.rol)
     .then((response) => {
-      if(response){
+      if (response) {
         res.status(204).json()
-      }else{
+      } else {
         res.status(400).json({
           message: 'Invalid ID'
         })
@@ -104,24 +86,35 @@ const edit = (req, res) => {
   if (!Object.keys(data).length) {
     return res.status(400).json({ message: "Missing Data" });
   } else {
-    console.log("entroooo")
-    reservationControllers.edit(id,req.user.id,data)//, req.user.rol)
+    reservationControllers.edit(id, req.user.id, data, req.user.rol)
       .then((response) => {
         res.status(200).json({
           message: 'Reservation edited succesfully',
-          user: response
+          reservation: response
         })
       })
       .catch((err) => {
-        res.status(400).json({message: err.errors[0].message})
+        res.status(400).json({ message: err.errors[0].message })
       })
   }
-};
+}
+
+const getReservationsByAccommodation = (req, res) => {
+  const AccommodationId= req.params.id
+  reservationControllers.getReservationsByAccommodation(AccommodationId,req.user.id,req.user.rol)
+  .then((response) => {
+    res.status(200).json({ items: response.length, reservations: response });
+  })
+  .catch((err) => {
+    res.status(400).json(err);
+  });
+}
 
 module.exports = {
   getAll,
   create,
   getById,
   remove,
-  edit
+  edit,
+  getReservationsByAccommodation
 };
