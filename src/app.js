@@ -23,7 +23,7 @@ const {db} = require('./utils/database')
 
 //* Configuraciones iniciales
 const app = express();
-
+const PORT = process.env.PORT || 8000;
 initModels()
 
 db.authenticate()
@@ -70,8 +70,8 @@ app.use("/api/v1/accommodationImages",accommodationImageRouter)
 app.use("/api/v1/roles",rolesRouter)
 
 
-app.listen(8000, () => {
-  console.log("Server started at port 8000");
+app.listen(PORT, () => {
+  console.log(`Server started at port ${PORT}`);
 });
 
 exports.default = app
